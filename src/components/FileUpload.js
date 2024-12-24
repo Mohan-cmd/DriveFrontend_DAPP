@@ -3,12 +3,15 @@ import { useState } from 'react';
 import './FileUpload.css';
 import axios from 'axios';
 const FileUpload =({contract,account,provider})=>{
-    const[file,setFile] =useState(null);
-    const[fileName,setFileName]= useState("No Image Selected");
+    const[files,setFiles] =useState([]);
+    const[fileNames,setFileNames]= useState("No Image Selected");
     const handleSubmit = async(e)=>{
        e.preventDefault();
         try{
-          if(File){
+          if(files){
+            console.log("account and con in FileUpload"+account+contract);
+            console.log("FIles is : "+files)
+            for(const file of files){
           const formData = new FormData();
           formData.append("file",file);
 
@@ -31,10 +34,14 @@ const FileUpload =({contract,account,provider})=>{
           //const signer = contract.connect(provider.getSigner());
           console.log('account is : '+account+'ImgHash is :'+ImgHash);
           // console.log()
-           contract.add(account,ImgHash.toString());
+          // contract.methods.add(account,ImgHash.toString()).send({from:account});
+          const folderName = document.querySelector('.folderInput').value;
+          console.log('foldername is : '+folderName);
+          await contract.methods.addFileToFolder(folderName,ImgHash).send({from:account});
           alert("Successfully Image Uploaded");
-          setFileName("No image Selected");
-          setFile(null);
+          setFileNames("No image Selected");
+          setFiles([]);
+        }
         }
         }catch(e){
           alert("Unable to Upload image to Pinata");
@@ -42,25 +49,29 @@ const FileUpload =({contract,account,provider})=>{
 
     }
     const retrieveFile=(e)=>{
-      const dataFile = e.target.files[0];
-      console.log(dataFile);
-      const reader = new window.FileReader();
-      reader.readAsArrayBuffer(dataFile);
-      reader.onloadend=()=>{
-        setFile(dataFile);
-        e.preventDefault();
-      }
-
+      // const dataFile = e.target.files[0];
+      // console.log(dataFile);
+      // const reader = new window.FileReader();
+      // reader.readAsArrayBuffer(dataFile);
+      // reader.onloadend=()=>{
+      //   setFile(dataFile);
+      //   e.preventDefault();
+      // }
+       const selectedFiles = Array.from(e.target.files);
+       setFiles(selectedFiles);
+       setFileNames(selectedFiles.map(file=>file.name).join(", "))
     } 
     return(
         <div className="top">
           <form className="form" onSubmit={handleSubmit}>
              <label htmlFor="file-upload" className="choose">
-                Choose Image
+                Choose Files
              </label>
-             <input disabled={!account} type="file" name='data' onChange={retrieveFile} id='file-upload'></input>
-             <span className="textArea">Image:{fileName}</span>
-             <button type="submit" className="upload" disabled={!file}>Upload File</button>
+             <input disabled={!account} type="file" name='data' onChange={retrieveFile} id='file-upload' multiple></input>
+             <input type='text' className='folderInput' placeholder=' Enter Folder Name'/>
+             {/* <span className="textArea">Image:{fileName}</span> */}
+             <button type="submit" className="upload" disabled={!files}>Upload Files</button>
+             
           </form>
         </div>
     )

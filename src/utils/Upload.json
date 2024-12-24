@@ -1,5 +1,5 @@
 {
-   "abi": [
+  "abi": [
     {
       "inputs": [
         {
@@ -14,6 +14,24 @@
         }
       ],
       "name": "add",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "folderName",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "url",
+          "type": "string"
+        }
+      ],
+      "name": "addFileToFolder",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -37,9 +55,45 @@
           "internalType": "address",
           "name": "user",
           "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "folderName",
+          "type": "string"
+        }
+      ],
+      "name": "allowFolderAccess",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
         }
       ],
       "name": "disallow",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "folderName",
+          "type": "string"
+        }
+      ],
+      "name": "disallowAccessToFolder",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -55,9 +109,112 @@
       "name": "display",
       "outputs": [
         {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "folderName",
+              "type": "string"
+            },
+            {
+              "internalType": "string[]",
+              "name": "files",
+              "type": "string[]"
+            }
+          ],
+          "internalType": "struct Upload.Folder[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "folderName",
+          "type": "string"
+        }
+      ],
+      "name": "displayFolderFiles",
+      "outputs": [
+        {
           "internalType": "string[]",
           "name": "",
           "type": "string[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        }
+      ],
+      "name": "getAllFolders",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "folderName",
+              "type": "string"
+            },
+            {
+              "internalType": "string[]",
+              "name": "files",
+              "type": "string[]"
+            }
+          ],
+          "internalType": "struct Upload.Folder[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "requester",
+          "type": "address"
+        }
+      ],
+      "name": "getSharedFolders",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "folderName",
+              "type": "string"
+            },
+            {
+              "internalType": "string[]",
+              "name": "files",
+              "type": "string[]"
+            }
+          ],
+          "internalType": "struct Upload.Folder[]",
+          "name": "",
+          "type": "tuple[]"
         }
       ],
       "stateMutability": "view",
